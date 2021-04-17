@@ -12,8 +12,12 @@ class NetworkHelper {
   final double latitude;
 
   Future getData() async {
-    var url = Uri.https(this.baseURL, "/data/2.5/weather",
-        {"lat": '$latitude', "lon": '$longitude', "appid": apiKey});
+    var url = Uri.https(this.baseURL, "/data/2.5/weather", {
+      "lat": '$latitude',
+      "lon": '$longitude',
+      "appid": apiKey,
+      "units": "metric"
+    });
 
     print('making request to url: $url');
     http.Response resp = await http.get(url);
@@ -27,6 +31,13 @@ class NetworkHelper {
     } else {
       int sC = resp.statusCode;
       print('Invalid status code, expected 200, received $sC');
+      return {
+        'name': 'Lagos',
+        'main': {'temp': 15.0},
+        'weather': [
+          {'id': 300}
+        ]
+      };
     }
     // print(resp.headers);
   }
